@@ -45,7 +45,7 @@ class GraphYTest {
     void hasEdge() {
         g1.addNode("A");
         g1.addNode("B");
-        assertFalse(g1.hasEdge("A","C",5));
+        assertFalse(g1.hasEdge("A","C",5f));
         g1.addEdge("A","B",3.8f);
         assertTrue(g1.hasEdge("A","B",3.8f));
 
@@ -126,10 +126,17 @@ class GraphYTest {
 
     @org.junit.jupiter.api.Test
     void graphOrder() {
+        assertEquals(0,g1.graphOrder());
+        g1.addNode("A");
+        assertEquals(1,g1.graphOrder());
+
+        System.out.println("success");
+
     }
 
     @org.junit.jupiter.api.Test
     void getEdgeNumber() {
+
     }
 
     @org.junit.jupiter.api.Test
