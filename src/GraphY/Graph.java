@@ -78,6 +78,24 @@ public class Graph {
     }
     return true;
   }
+
+
+
+  public boolean hasEdge(String label_src, String label_dest){
+    if(!(this.hasNode(label_src)&&this.hasNode(label_dest))) return false;
+    HeadNode temp = head;
+    while(!temp.label.equals(label_src))
+      temp=temp.nextHeadNode;
+    Node temp1 = temp.nextNode;
+    while(temp1!=null){
+      if(temp1.label.equals(label_dest))
+        return true;
+      temp1=temp1.nextNode;
+    }
+    return false;
+  }
+
+
   public boolean hasEdge(String label_src, String label_dest,float weight){
     if(!(this.hasNode(label_src)&&this.hasNode(label_dest))) return false;
     HeadNode temp = head;
@@ -91,8 +109,14 @@ public class Graph {
     }
     return false;
   }
-  public float minHasEdge(String label_src, String label_dest)/*min*/{
+
+
+
+
+
+  public float maxHasEdge(String label_src, String label_dest){
     if(!(this.hasNode(label_src)&&this.hasNode(label_dest))) return INF;
+
     HeadNode temp = head;
     while(!temp.label.equals(label_src))
       temp=temp.nextHeadNode;
@@ -104,6 +128,22 @@ public class Graph {
     }
     return INF;
   }
+
+  // public float minHasEdge(String label_src, String label_dest)/*min*/{ /*NOT TESTED*/
+    /*if(!(this.hasNode(label_src)&&this.hasNode(label_dest))) return INF;
+
+    HeadNode temp = head;
+    while(!temp.label.equals(label_src))
+      temp=temp.nextHeadNode;
+    Node temp1 = temp.nextNode;
+    while(temp1!=null){
+      if(temp1.label.equals(label_dest))
+        return temp1.weight;
+      temp1=temp1.nextNode;
+    }
+    return INF;
+  }
+  */
   public int numHasEdge(String label_src, String label_dest){
     if(!(this.hasNode(label_src)&&this.hasNode(label_dest))) return 0;
     HeadNode temp = head;
@@ -140,8 +180,12 @@ public class Graph {
   public boolean delNode(String label){
     if(!this.hasNode(label))
       return false;
-    if(head.label.equals(label))
-      head=head.nextHeadNode;
+    if(head.label.equals(label)) {
+      head = head.nextHeadNode;
+      return true;
+    }
+
+
     HeadNode temp= head;
     while(temp.nextHeadNode!=null  ){
       if(temp.nextHeadNode.label.equals(label))
@@ -152,10 +196,7 @@ public class Graph {
         temp=temp.nextHeadNode;
       }
     }
-  //  System.out.println();
-  //  System.out.println(temp.label);
-  //  System.out.println(label);
-  //  System.out.println(this.delEdge(temp.label,label));
+
     this.delEdge(temp.label,label);
     this.nodeNumber--;
     return true;
@@ -167,11 +208,30 @@ public class Graph {
     while(temp1!=null && !temp1.label.equals(label_src))
       temp1=temp1.nextHeadNode;
     //first ones
+
+
+    //the rest
     while(temp1.nextNode!=null && temp1.nextNode.label.equals(label_dest))
       temp1.nextNode=temp1.nextNode.nextNode;
-    //the rest
-      return true;
+
+    return true;
   }
+  public boolean delEdge(String label_src, String label_dest,float weight){
+    if(!this.hasNode(label_src))
+      return false;
+    HeadNode temp1 = head;
+    while(temp1!=null && !temp1.label.equals(label_src))
+      temp1=temp1.nextHeadNode;
+    //first ones
+
+
+    //the rest
+    while(temp1.nextNode!=null && temp1.nextNode.label.equals(label_dest)&& temp1.nextNode.weight==weight)
+      temp1.nextNode=temp1.nextNode.nextNode;
+
+    return true;
+  }
+
   public int graphOrder(){
     return nodeNumber;
   }

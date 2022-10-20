@@ -1,5 +1,7 @@
 package GraphY;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphYTest {
@@ -52,6 +54,19 @@ class GraphYTest {
         System.out.println("success");
     }
 
+
+    @Test
+    void testHasEdge() {
+        g1.addNode("A");
+        g1.addNode("B");
+        assertFalse(g1.hasEdge("A","C"));
+        g1.addEdge("A","B",3.8f);
+        assertTrue(g1.hasEdge("A","B"));
+
+        System.out.println("success");
+
+    }
+
     @org.junit.jupiter.api.Test
     void addEdge() {
         g1.addNode("A");
@@ -65,14 +80,13 @@ class GraphYTest {
     }
 
     @org.junit.jupiter.api.Test
-    void minHasEdge() { /*RETURN MAX NOT MIN*/
+    void maxHasEdge() { /*RETURN MAX*/
         g1.addNode("A");
         g1.addNode("B");
-        assertEquals(g1.INF,g1.minHasEdge("A","B"));
+        assertEquals(g1.INF,g1.maxHasEdge("A","B"));
         g1.addEdge("A","B",3.8f);
         g1.addEdge("A","B",5f);
-
-        assertEquals(3.8f,g1.minHasEdge("A","B"));
+        assertEquals(5f,g1.maxHasEdge("A","B"));
         System.out.println("success");
     }
 
@@ -94,34 +108,45 @@ class GraphYTest {
     }
 
     @org.junit.jupiter.api.Test
-    void delNode() { // CANT DELETE FIRST NODE
-        assertFalse(g1.delNode("A"));
+    void delNode() {
         g1.addNode("A");
-        g1.addNode("B");
-        assertTrue(g1.delNode("B"));
-        assertFalse(g1.hasNode("B"));
-        assertTrue(g1.hasNode("A"));
+        System.out.println(g1);
         assertTrue(g1.delNode("A"));
+        assertFalse(g1.hasNode("A"));
+
+        assertFalse(g1.hasNode("A"));
 
 
         System.out.println("success");
     }
 
     @org.junit.jupiter.api.Test
-    void delEdge() { // no delete by weight value // delete all edges
+    void delEdge() {
         g1.addNode("A");
         g1.addNode("B");
-        //assertEquals(false,g1.delEdge("A","B"));
         g1.addEdge("A","B",5f);
         g1.addEdge("A","B",3f);
         assertTrue(g1.delEdge("A", "B"));
         assertFalse(g1.hasEdge("A","B",5f));
         assertFalse(g1.hasEdge("A","B",3f));
 
-
         System.out.println("success");
     }
 
+    @Test
+    void testDelEdge() {
+        g1.addNode("A");
+        g1.addNode("B");
+        g1.addEdge("A","B",5f);
+        g1.addEdge("A","B",3f);
+        assertTrue(g1.delEdge("A", "B",5f));
+        assertFalse(g1.hasEdge("A","B",5f));
+        assertTrue(g1.hasEdge("A","B",3f));
+
+
+        System.out.println("success");
+
+    }
 
 
     @org.junit.jupiter.api.Test
@@ -136,15 +161,39 @@ class GraphYTest {
 
     @org.junit.jupiter.api.Test
     void getEdgeNumber() {
+        assertEquals(0,g1.getEdgeNumber());
+        g1.addNode("A");
+        g1.addNode("B");
+        g1.addEdge("A","B",5F);
+        assertEquals(1,g1.getEdgeNumber());
+
+        System.out.println("success");
+
 
     }
 
     @org.junit.jupiter.api.Test
-    void exitOrder() {
+    void exitOrder() { // WHEN THERE IS NO NODE RETURN -1
+        //assertEquals(0,g1.exitOrder("A"));
+        g1.addNode("A");
+        assertEquals(0,g1.exitOrder("A"));
+        g1.addNode("B");
+        g1.addEdge("A","B",6F);
+        assertEquals(1,g1.exitOrder("A"));
+        assertEquals(0,g1.exitOrder("B"));
+        System.out.println("success");
     }
 
     @org.junit.jupiter.api.Test
-    void enterOrder() {
+    void enterOrder() { // WHEN THERE IS NO NODE RETURN -1
+        //assertEquals(0,g1.exitOrder("A"));
+        g1.addNode("A");
+        assertEquals(0,g1.exitOrder("A"));
+        g1.addNode("B");
+        g1.addEdge("A","B",6F);
+        assertEquals(1,g1.enterOrder("B"));
+        assertEquals(0,g1.enterOrder("A"));
+        System.out.println("success");
     }
 
     @org.junit.jupiter.api.Test
@@ -218,5 +267,7 @@ class GraphYTest {
     @org.junit.jupiter.api.Test
     void bellmanFord() {
     }
+
+
     //test
 }
