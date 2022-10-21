@@ -286,34 +286,30 @@ public class Graph {
   public boolean isSimple(){//pas de double laison et boucle
     if(this.isEmpty()) return true;
     HeadNode temp = head;
-    HeadNode temp1;
+    Node temp1;
     while(temp != null){
-      /*temp1=temp.nextNode;
-      while (temp1 != null && temp1.label.compareTo(temp.label)>=0) {
-        if(temp1.label.equals(temp.label)) return false;
-        temp1=temp1.nextNode;
-      }*/
-      temp1=temp;
+      temp1=temp.nextNode;
       while (temp1!=null) {
-        if(this.numHasEdge(temp.label,temp1.label)>1) return false;
-        temp1=temp1.nextHeadNode;
+        if(this.numHasEdge(temp.label,temp1.label)>1 ||
+                temp1.label.equals(temp.label)) return false;
+
+        temp1=temp1.nextNode;
       }
       temp=temp.nextHeadNode;
     }
     return true;
   }
-  public boolean isComplet(){
+  public boolean isComplete(){
     int num = this.graphOrder();
-    if(this.getEdgeNumber() == (num)*(num-1)/2) return true;
-    return false;
-  }//chaque 2 sommet sont reliee nombre d aret = n(n-1)/2(non orinte) n*(n-1) oriente
+    return this.getEdgeNumber() == (num) * (num - 1);
+  }//chaque 2 sommet sont reliee , nombre d aret = n(n-1)/2(non orinte) n*(n-1) oriente
   /*****************************/
-  public void printMatrix(float mat[][]){
+  public void printMatrix(float[][] mat){
     // Loop through all rows
     for (int i = 0; i < mat.length; i++){
       // Loop through all elements of current row
       for (int j = 0; j < mat[i].length; j++)
-        System.out.print(mat[i][j] + "\t");
+        System.out.print(mat[i][j] + "    ");
       System.out.println();
     }
   }
@@ -336,14 +332,16 @@ public class Graph {
   }
   public float[][] adjacencyMatrix(){
     int ordre = graphOrder();
-    float[][] adjMat = createMatrix(ordre, ordre,0);
+    float[][] adjMat = createMatrix(ordre, ordre,0); // manich mo9tane3 ... lezem INF KI MAFAMCH EDGE BINETHOOM
     HeadNode temp = head;
     Node temp1;
     int i,j;
     while (temp!=null) {
       i = nodeClassment(temp.label);
+      //adjMat[i][i]=0;
       temp1 = temp.nextNode;
       while (temp1!=null) {
+
         j = nodeClassment(temp1.label);
         adjMat[i][j]=1;
         temp1 = temp1.nextNode;
@@ -354,7 +352,7 @@ public class Graph {
   }
   public float[][] weightedAdjacencyMatrix(){//MAX
     int ordre = graphOrder();
-    float[][] adjMat = createMatrix(ordre, ordre,INF);
+    float[][] adjMat = createMatrix(ordre, ordre,0);
     HeadNode temp = head;
     Node temp1;
     int i,j;
@@ -372,7 +370,7 @@ public class Graph {
       adjMat[i][i]=0;
     return adjMat;
   } // tekhdem ama lezem l add mnathma*/
-  public float[][] incidenceMatrix(){
+  public float[][] incidenceMatrix(){// vctnums are ordered as the main order
     float[][] mat = createMatrix(this.graphOrder(),this.getEdgeNumber(),0);
     int vctNum=0,index;
     HeadNode temp = head;
@@ -381,8 +379,8 @@ public class Graph {
       temp1=temp.nextNode;
       index = this.nodeClassment(temp.label);  //0
       while (temp1!=null) {
-        mat[index][vctNum]= -1;
-        mat[this.nodeClassment(temp1.label)][vctNum] = 1;
+        mat[index][vctNum]= 1;
+        mat[this.nodeClassment(temp1.label)][vctNum] = -1;
         vctNum++;
         temp1=temp1.nextNode;
       }
@@ -428,23 +426,12 @@ public class Graph {
       i++;
       if(i==num)
         i=0;
-      /*try{Thread.sleep(1000);}
-      catch (Exception e) {
 
-            // catching the exception
-            System.out.println(e);
-        }
-      */
       }
-      /*System.out.println("f");
-      for (i = 0; i < k; i++) {
-        System.out.println(ret[i]);
-      }*/
     return ret;
   }
   public boolean isCyclic(){
-    if (this.topologyOrder()[0]==null) return true;
-    return false;
+    return this.topologyOrder()[this.graphOrder()-1] == null;
   }
   public Floyd floydwarshall(){
     int order = this.graphOrder();
