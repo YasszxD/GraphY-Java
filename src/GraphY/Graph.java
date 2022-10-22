@@ -13,7 +13,7 @@ public class Graph {
   public int edgeNumber;
   public int nodeNumber;
   public HeadNode head;
-  public final int INF = 99999;
+  public final int INF = 9999;
 /*  GraphY.Graph(){
     head = new GraphY.HeadNode("");
   }*/
@@ -309,7 +309,7 @@ public class Graph {
     for (int i = 0; i < mat.length; i++){
       // Loop through all elements of current row
       for (int j = 0; j < mat[i].length; j++)
-        System.out.print(mat[i][j] + "    ");
+        System.out.print(mat[i][j] + "\t\t");
       System.out.println();
     }
   }
@@ -338,7 +338,7 @@ public class Graph {
     int i,j;
     while (temp!=null) {
       i = nodeClassment(temp.label);
-      //adjMat[i][i]=0;
+      //adjMat[i][i]=0;// DEL HETHA W INIT 0 SI GHALET
       temp1 = temp.nextNode;
       while (temp1!=null) {
 
@@ -352,12 +352,13 @@ public class Graph {
   }
   public float[][] weightedAdjacencyMatrix(){//MAX
     int ordre = graphOrder();
-    float[][] adjMat = createMatrix(ordre, ordre,0);
+    float[][] adjMat = createMatrix(ordre, ordre,INF);//INF KHATER MAHOMCH CONNECTE ... TESTAKHDMO FL WARSHELL
     HeadNode temp = head;
     Node temp1;
     int i,j;
     while (temp!=null) {
       i = nodeClassment(temp.label);
+      adjMat[i][i]= 0;
       temp1 = temp.nextNode;
       while (temp1!=null) {
         j = nodeClassment(temp1.label);
@@ -444,18 +445,27 @@ public class Graph {
       for (j=0; j < order; j++)
         f1.pathMatrix[i][j]=j;
 
-    for (i=0; i < order; i++) {
+    for (k=0; k < order; k++) {
       for (j=0; j < order; j++) {
-        for (k=0; k < order; k++) {
-          if(f1.distanceMatrix[i][k]+f1.distanceMatrix[k][j]<f1.distanceMatrix[i][j]){
+        for (i=0; i < order; i++) {
+
+
+
+          if(f1.distanceMatrix[i][k]== this.INF || f1.distanceMatrix[k][j]==this.INF) continue;
+          if(f1.distanceMatrix[i][k]+f1.distanceMatrix[k][j]<f1.distanceMatrix[i][j] ){
+
             f1.distanceMatrix[i][j]=f1.distanceMatrix[i][k]+f1.distanceMatrix[k][j];
             f1.pathMatrix[i][j]=k;
           }
+
+          //fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
           //negative cycle diagonal <0
           if(i==j&&f1.distanceMatrix[i][j]<0) return null;
         }
+
       }
     }
+   // printMatrix(f1.distanceMatrix);
     return f1;
   }//poid negative ou positife no cycle negative oriente
   public String[] floydwarshallpath(String label_src, String label_dest){//ya93ad 0 0 0 ml lekhra : mochkla : done
@@ -467,7 +477,7 @@ public class Graph {
     int i = 0,j=or-1,len=2;
     if(f1.pathMatrix[ret[i]][ret[i+1]]==INF) return null;
     do {
-      System.out.println(i);
+      //System.out.println(i);
       if(f1.pathMatrix[ret[i]][ret[i+1]]==ret[i]||f1.pathMatrix[ret[i]][ret[i+1]]==ret[i+1])
         i++;
       else{

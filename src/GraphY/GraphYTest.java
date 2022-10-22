@@ -380,19 +380,145 @@ class GraphYTest {
     }
 
     @org.junit.jupiter.api.Test
-    void floydwarshall() {
+    void floydwarshall() {/*/ EX1
+        g1.addNode("A");
+        g1.addNode("B");
+        g1.addNode("C");
+        g1.addNode("D");
+
+        g1.addEdge("A","B",4);
+        g1.addEdge("B","C",1);
+        g1.addEdge("B","D",4);
+        g1.addEdge("C","A",-2);
+        g1.addEdge("C","D",1);
+        g1.addEdge("D","B",3);
+
+
+        Floyd res = g1.floydwarshall();
+        float[][] expectedDistance = {{0,4,5,6},{-1,0,1,2},{-2,2,0,1},{2,3,4,0}};
+        float[][] expectedPath = {{0,1,1,2},{2,1,2,2},{0,0,2,3},{1,1,1,3}};//????
+        assertArrayEquals(res.distanceMatrix,expectedDistance);
+        assertArrayEquals(res.pathMatrix,expectedPath);
+
+
+        //add negative cycle
+        g1.addEdge("A","B",-4f);
+        res = g1.floydwarshall();
+        assertNull(res);
+/*/
+
+
+    /*/EX2
+        g1.addNode("A");
+        g1.addNode("B");
+        g1.addNode("C");
+        g1.addNode("D");
+        g1.addNode("E");
+        g1.addNode("F");
+        g1.addNode("G");
+        g1.addEdge("A","B",2);
+        g1.addEdge("B","C",-4);
+        g1.addEdge("B","E",1);
+        g1.addEdge("C","D",2);
+        g1.addEdge("D","B",3);
+        g1.addEdge("F","G",4);
+
+        Floyd res = g1.floydwarshall();
+        float[][] expectedDistance = {{0,2, -2, 0,3, g1.INF, g1.INF},
+                {g1.INF,0,-4,-2,1, g1.INF, g1.INF},
+                {g1.INF,5,0,2,6, g1.INF, g1.INF},
+                {g1.INF,3, -1,0,4, g1.INF, g1.INF},
+                {g1.INF, g1.INF, g1.INF, g1.INF,0, g1.INF, g1.INF},
+                {g1.INF, g1.INF, g1.INF, g1.INF, g1.INF, 0, 4},
+                {g1.INF, g1.INF, g1.INF, g1.INF, g1.INF, g1.INF, 0}};
+        assertArrayEquals(expectedDistance, res.distanceMatrix);
+
+
+/*/
+//EX3 url : https://www.baeldung.com/wp-content/uploads/sites/4/2020/07/1-1.png
+        g1.addNode("A");
+        g1.addNode("B");
+        g1.addNode("C");
+        g1.addNode("D");
+
+        g1.addEdge("A","C",-2);
+        g1.addEdge("B","A",4);
+        g1.addEdge("B","C",3);
+        g1.addEdge("C","D",2);
+        g1.addEdge("D","B",-1);
+
+
+        //g1.printMatrix(g1.weightedAdjacencyMatrix());
+
+        Floyd res = g1.floydwarshall();
+        float[][] expectedDistance = {{0, -1,-2,0},{4,0,2,4},{5,1,0,2},{3,-1,1,0}};
+        float[][] expectedPath = {{0,1,1,2},{2,1,2,2},{0,0,2,3},{1,1,1,3}};//????
+        assertArrayEquals(expectedDistance,res.distanceMatrix);
+//
     }
 
     @org.junit.jupiter.api.Test
     void floydwarshallpath() {
+      /* EX1
+        g1.addNode("A");
+        g1.addNode("B");
+        g1.addNode("C");
+        g1.addNode("D");
+
+        g1.addEdge("A","B",4);
+        g1.addEdge("B","C",1);
+        g1.addEdge("B","D",4);
+        g1.addEdge("C","A",-2);
+        g1.addEdge("C","D",1);
+        g1.addEdge("D","B",3);
+
+        String[] s = g1.floydwarshallpath("A","D");
+        for (String s1:s
+             ) {
+            System.out.println(s1);
+
+        }
+    */
+        //EX3
+        g1.addNode("A");
+        g1.addNode("B");
+        g1.addNode("C");
+        g1.addNode("D");
+
+        g1.addEdge("A","C",-2);
+        g1.addEdge("B","A",4);
+        g1.addEdge("B","C",3);
+        g1.addEdge("C","D",2);
+        g1.addEdge("D","B",-1);
+
+        String[] s = g1.floydwarshallpath("A","D");
+        for (String s1:s
+        ) {
+            System.out.println(s1);
+
+        }
+
+
     }
 
     @org.junit.jupiter.api.Test
     void isConnex() {
+        g1.addNode("A");
+        g1.addNode("C");
+        g1.addNode("D");
+        g1.addEdge("A","C",1);
+        g1.addEdge("C","D",1);
+
+        assertFalse(g1.isConnex());
+        g1.addEdge("D","A",1);
+        assertTrue(g1.isConnex());
+
     }
 
+    /**iam here*/
     @org.junit.jupiter.api.Test
     void graphDiameter() {
+
     }
 
     @org.junit.jupiter.api.Test
