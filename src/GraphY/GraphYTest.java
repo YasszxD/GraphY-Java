@@ -109,12 +109,13 @@ class GraphYTest {
 
     @org.junit.jupiter.api.Test
     void delNode() {
+        assertFalse(g1.delNode("A"));
         g1.addNode("A");
         System.out.println(g1);
         assertTrue(g1.delNode("A"));
         assertFalse(g1.hasNode("A"));
 
-        assertFalse(g1.hasNode("A"));
+        System.out.println(g1);
 
 
         System.out.println("success");
@@ -269,7 +270,6 @@ class GraphYTest {
         g1.addNode("D");
         g1.addNode("E");
 
-       assertArrayEquals(g1.createMatrix(5,5,0),g1.weightedAdjacencyMatrix());
 
         g1.addEdge("A","B",4);
         g1.addEdge("B","C",3);
@@ -279,11 +279,11 @@ class GraphYTest {
         g1.addEdge("E","B",5);
         g1.addEdge("E","D",2);
 
-        float[][] expected = {{0,4,0,0,0},
-                            {0,0,3,3,0},
-                            {2,0,0,0,2},
-                            {0,0,0,0,0},
-                            {0,5,0,2,0}};
+        float[][] expected = {{0,4, g1.INF,g1.INF,g1.INF},
+                            {g1.INF,0,3,3,g1.INF},
+                            {2,g1.INF,0,g1.INF,2},
+                            {g1.INF,g1.INF,g1.INF,0,g1.INF},
+                            {g1.INF,5,g1.INF,2,0}};
 
         assertArrayEquals(expected,g1.weightedAdjacencyMatrix());
 
