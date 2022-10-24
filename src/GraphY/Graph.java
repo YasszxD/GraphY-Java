@@ -215,7 +215,7 @@ public class Graph {
         temp1.nextNode=temp1.nextNode.nextNode;
     //
     Node temp = temp1.nextNode;
-    while(temp.nextNode!=null ){
+    while(temp!=null && temp.nextNode!=null ){
       if(temp.nextNode.label.equals(label_dest))
         temp.nextNode=temp.nextNode.nextNode;
       else
@@ -586,7 +586,6 @@ public class Graph {
 
     return d1;
   }
-  /*****************************/
   //Trasitive closure
   //dijkestra
   //coloriage//welsh powell
