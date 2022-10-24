@@ -546,6 +546,27 @@ class GraphYTest {
     @org.junit.jupiter.api.Test
     void bellmanFord() {
 
+        g1.addNode("A");
+        g1.addNode("B");
+        g1.addNode("C");
+        g1.addNode("D");
+
+        g1.addEdge("A","C",-2);
+        g1.addEdge("B","A",4);
+        g1.addEdge("B","C",3);
+        g1.addEdge("C","D",2);
+        g1.addEdge("D","B",-1);
+
+        BellmanFord bellmanFord = g1.BellmanFord("D");
+        for (float v: bellmanFord.distance
+             ) {
+            System.out.println(v);
+        }
+        for (String s: bellmanFord.path
+             ) {
+            System.out.println(s);
+        }
+
     }
 
 

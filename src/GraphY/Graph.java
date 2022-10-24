@@ -24,15 +24,16 @@ public class Graph {
     HeadNode temp = head;
     while (temp != null && !label.equals(temp.label))
       temp = temp.nextHeadNode;
-    if(temp == null)
+    /*if(temp == null)
       return false;
-    return true;
+    return true;*/
+    return temp!=null;
   }
   public boolean addNode(String label){
-    if(this.hasNode(label) == true)
+    if(this.hasNode(label))
       return false;
     HeadNode newNode = new HeadNode(label);
-    if(this.isEmpty() == true){//empty
+    if(this.isEmpty()){//empty
       head = newNode;
     }
     else{//not empty
@@ -205,7 +206,7 @@ public class Graph {
     if(!this.hasNode(label_src))
       return false;
     HeadNode temp1 = head;
-    while(temp1!=null && !temp1.label.equals(label_src))
+    while(!temp1.label.equals(label_src))
       temp1=temp1.nextHeadNode;
     //first ones
 
@@ -230,7 +231,7 @@ public class Graph {
     if(!this.hasNode(label_src))
       return false;
     HeadNode temp1 = head;
-    while(temp1!=null && !temp1.label.equals(label_src))
+    while(!temp1.label.equals(label_src))
       temp1=temp1.nextHeadNode;
     //first ones
 
@@ -276,12 +277,20 @@ public class Graph {
     HeadNode temp = head;
     while (!temp.label.equals(label))
       temp=temp.nextHeadNode;
-    if(temp.nextNode == null){}
+    /*if(temp.nextNode == null){}
     else{
       Node temp1=temp.nextNode;
       while (temp1 != null) {
         number++;
         temp1=temp1.nextNode;
+      }
+    }*/
+    if(temp.nextNode != null) {
+      Node temp1 = temp.nextNode;
+      while (temp1 != null) {
+        number++;
+        temp1 = temp1.nextNode;
+
       }
     }
     return number;
@@ -324,10 +333,9 @@ public class Graph {
   /*****************************/
   public void printMatrix(float[][] mat){
     // Loop through all rows
-    for (int i = 0; i < mat.length; i++){
+    for (float[] floats : mat) {
       // Loop through all elements of current row
-      for (int j = 0; j < mat[i].length; j++)
-        System.out.print(mat[i][j] + "\t\t");
+      for (float aFloat : floats) System.out.print(aFloat + "\t\t");
       System.out.println();
     }
   }
@@ -423,7 +431,7 @@ public class Graph {
     boolean[] added =  new boolean[num];
     //methode1
     float[][] mat = this.adjacencyMatrix();
-    int k=0,i=0,j=0,flag=0;
+    int k=0,i,j,flag=0;
     for (i = 0; i < num; i++)
       added[i]=false;
     i=0;
@@ -434,7 +442,7 @@ public class Graph {
         if (mat[j][i] == 1)
           break;
       }
-      if(j==num && added[i]==false){
+      if(j==num && !added[i]){
         added[i]=true;
         for(j=0;j<num;j++)
           mat[i][j] = 0;
@@ -458,7 +466,7 @@ public class Graph {
     f1.distanceMatrix=this.weightedAdjacencyMatrix();
     //setup f1.pathMatrix
     f1.pathMatrix=createMatrix(order,order,0);
-    int i=0, j=0, k;
+    int i, j, k;
     for (i=0; i < order; i++)
       for (j=0; j < order; j++)
         f1.pathMatrix[i][j]=j;
@@ -541,7 +549,7 @@ public class Graph {
     return f1.distanceMatrix[this.nodeClassment(label_src)][this.nodeClassment(label_dest)];
   }
   public BellmanFord BellmanFord(String label_src){//negative positif oriente ou non
-    if(this.hasNode(label_src)==false) return null;
+    if(!this.hasNode(label_src)) return null;
     int or = this.graphOrder();
     BellmanFord d1 = new BellmanFord();
     d1.distance = new float[or];
@@ -551,7 +559,7 @@ public class Graph {
     int indexTemp,indexTemp1;
     for (; i < or; i++) d1.distance[i]=INF;  d1.distance[this.nodeClassment(label_src)]=0;
     d1.path[0]=label_src;
-      HeadNode temp = head;
+      HeadNode temp;
       Node temp1;
     for(i=1;i<this.graphOrder();i++){
       temp = head;
