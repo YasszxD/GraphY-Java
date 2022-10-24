@@ -212,7 +212,17 @@ public class Graph {
 
     //the rest
     while(temp1.nextNode!=null && temp1.nextNode.label.equals(label_dest))
-      temp1.nextNode=temp1.nextNode.nextNode;
+        temp1.nextNode=temp1.nextNode.nextNode;
+    //
+    Node temp = temp1.nextNode;
+    while(temp.nextNode!=null ){
+      if(temp.nextNode.label.equals(label_dest))
+        temp.nextNode=temp.nextNode.nextNode;
+      else
+        temp=temp.nextNode;
+    }
+
+
 
     return true;
   }
@@ -226,8 +236,16 @@ public class Graph {
 
 
     //the rest
-    while(temp1.nextNode!=null && temp1.nextNode.label.equals(label_dest)&& temp1.nextNode.weight==weight)
+    while(temp1.nextNode!=null && temp1.nextNode.label.equals(label_dest) && temp1.nextNode.weight == weight)
       temp1.nextNode=temp1.nextNode.nextNode;
+    //
+    Node temp = temp1.nextNode;
+    while(temp.nextNode!=null ){
+      if(temp.nextNode.label.equals(label_dest) && temp.nextNode.weight == weight)
+        temp.nextNode=temp.nextNode.nextNode;
+      else
+        temp=temp.nextNode;
+    }
 
     return true;
   }
