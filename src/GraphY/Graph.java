@@ -8,7 +8,7 @@ package GraphY;
  * @version 1.1
  * @since   19-10-2022
  */
-
+/*nidhallllll*/
 public class Graph {
   public int edgeNumber;
   public int nodeNumber;
